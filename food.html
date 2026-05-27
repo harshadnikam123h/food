@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Hotel Harshad | Veg & Non-Veg Delicacies</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f8f4e8 0%, #f0ebdd 100%);
+      color: #2e241f;
+      line-height: 1.5;
+    }
+
+    /* custom scroll */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e2dacf;
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #b87c4f;
+      border-radius: 12px;
+    }
+
+    /* header section */
+    .hero {
+      background: linear-gradient(135deg, #1f3b2c, #2a4a35);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: #fef9e6;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+
+    .hotel-name {
+      font-size: 3.4rem;
+      letter-spacing: 2px;
+      font-weight: 800;
+      text-shadow: 3px 3px 0 #1a2f23;
+      word-break: keep-all;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      margin-top: 0.6rem;
+      font-style: italic;
+      background: #e6c8a0;
+      display: inline-block;
+      padding: 0.3rem 1.5rem;
+      border-radius: 40px;
+      color: #2e241f;
+      font-weight: 500;
+      backdrop-filter: blur(2px);
+    }
+
+    .welcome-text {
+      margin-top: 1rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1rem;
+      font-weight: 300;
+      background: rgba(0,0,0,0.2);
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+    }
+
+    /* main container */
+    .container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 2rem;
+    }
+
+    /* tab buttons */
+    .tab-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .tab-btn {
+      background: #fef3e2;
+      border: none;
+      font-size: 1.4rem;
+      font-weight: 700;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      color: #482e1c;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 1px;
+    }
+
+    .tab-btn i {
+      font-size: 1.6rem;
+      font-weight: normal;
+    }
+
+    .tab-btn.veg {
+      background: #e0f0e3;
+      border-bottom: 3px solid #2a7f3e;
+    }
+    .tab-btn.nonveg {
+      background: #fae6e4;
+      border-bottom: 3px solid #c73d2f;
+    }
+
+    .tab-btn.active {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    }
+    .tab-btn.veg.active {
+      background: #c8e6d9;
+      color: #155724;
+      border-bottom: 4px solid #1f6e3c;
+    }
+    .tab-btn.nonveg.active {
+      background: #fcd4cf;
+      color: #a12d1f;
+      border-bottom: 4px solid #b63a2a;
+    }
+
+    /* menu section grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.8rem;
+      animation: fadeSlideUp 0.4s ease;
+    }
+
+    .menu-card {
+      background: white;
+      border-radius: 32px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid #f2e3cd;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-img {
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 0.6rem;
+    }
+
+    .veg-badge, .nonveg-badge {
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      padding: 0.25rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: white;
+      letter-spacing: 0.5px;
+    }
+    .veg-badge {
+      background: #1f6e3cd9;
+    }
+    .nonveg-badge {
+      background: #b63a2ad9;
+    }
+
+    .card-content {
+      padding: 1.2rem 1.3rem 1.5rem;
+    }
+
+    .dish-name {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #2e241f;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+
+    .price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: #f7eedb;
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      color: #b45a2b;
+    }
+
+    .description {
+      color: #5e4b38;
+      margin: 0.6rem 0 0.9rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .order-btn {
+      background: #ee9b4e;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .order-btn:hover {
+      background: #d47c33;
+      transform: scale(0.97);
+    }
+
+    /* notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background: #2e241fe6;
+      backdrop-filter: blur(10px);
+      color: #ffefcf;
+      padding: 0.7rem 1.7rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      border-left: 6px solid #f5b042;
+    }
+
+    .toast-msg.show {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* footer */
+    footer {
+      text-align: center;
+      background: #dccdaf;
+      margin-top: 3rem;
+      padding: 1.5rem;
+      border-radius: 40px 40px 0 0;
+      font-size: 0.85rem;
+      color: #3e2a1c;
+      font-weight: 500;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .hotel-name {
+        font-size: 2.2rem;
+      }
+      .tab-btn {
+        font-size: 1.2rem;
+        padding: 0.5rem 1.2rem;
+      }
+      .dish-name {
+        font-size: 1.4rem;
+      }
+    }
+
+    .special-badge {
+      background: #f5bc70;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hotel-name">🍛 HOTEL HARSHAD 🍢</div>
+  <div class="tagline">Since 1987 | Aroma of Tradition</div>
+  <div class="welcome-text">✨ Authentic Indian flavors | Pure Veg & Signature Non-Veg Delights ✨</div>
+</div>
+
+<div class="container">
+  <div class="tab-bar">
+    <button class="tab-btn veg active" id="vegTabBtn">🥬 VEGETARIAN</button>
+    <button class="tab-btn nonveg" id="nonvegTabBtn">🍗 NON-VEGETARIAN</button>
+  </div>
+
+  <div id="menuContainer" class="menu-grid">
+    <!-- dynamic menu injected via JS -->
+  </div>
+</div>
+
+<footer>
+  🌟 Hotel Harshad – Where every meal tells a story. Pure taste, quality ingredients, and heartwarming hospitality. 🌟
+</footer>
+
+<div id="toastMsg" class="toast-msg">🍽️ Added to your order</div>
+
+<script>
+  // ---------- MENU DATA ----------
+  const vegMenu = [
+    {
+      name: "Paneer Tikka Lababdar",
+      price: "₹320",
+      description: "Cottage cheese marinated in rich spices, grilled, and served in creamy tomato gravy.",
+      imgLabel: "🍛",
+      badge: "veg",
+      special: "Chef's Special"
+    },
+    {
+      name: "Veg Biryani",
+      price: "₹280",
+      description: "Aromatic basmati rice cooked with garden fresh veggies, mint & saffron.",
+      imgLabel: "🍚",
+      badge: "veg",
+      special: ""
+    },
+    {
+      name: "Dal Makhani",
+      price: "₹250",
+      description: "Black lentils slow-cooked overnight with butter, cream & subtle spices.",
+      imgLabel: "🥘",
+      badge: "veg",
+      special: ""
+    },
+    {
+      name: "Veg Kolhapuri",
+      price: "₹270",
+      description: "Spicy mixed vegetable curry with coconut and kolhapuri masala.",
+      imgLabel: "🌶️",
+      badge: "veg",
+      special: "Spicy"
+    },
+    {
+      name: "Palak Paneer",
+      price: "₹290",
+      description: "Soft paneer cubes in smooth, creamy spinach gravy, mildly spiced.",
+      imgLabel: "🥬",
+      badge: "veg",
+      special: ""
+    },
+    {
+      name: "Harshad Special Thali (Veg)",
+      price: "₹450",
+      description: "Complete meal: 3 sabzi, dal, rice, roti, raita, pickle & dessert.",
+      imgLabel: "🍱",
+      badge: "veg",
+      special: "Best Seller"
+    }
+  ];
+
+  const nonVegMenu = [
+    {
+      name: "Chicken Butter Masala",
+      price: "₹420",
+      description: "Tender chicken cooked in rich, creamy tomato & cashew gravy, mildly sweet.",
+      imgLabel: "🍗",
+      badge: "nonveg",
+      special: "Signature Dish"
+    },
+    {
+      name: "Mutton Rogan Josh",
+      price: "₹550",
+      description: "Kashmiri style aromatic lamb curry with fennel & red chillies.",
+      imgLabel: "🍖",
+      badge: "nonveg",
+      special: ""
+    },
+    {
+      name: "Tandoori Chicken",
+      price: "₹380",
+      description: "Classic yogurt-marinated chicken, charcoal roasted in tandoor.",
+      imgLabel: "🔥",
+      badge: "nonveg",
+      special: "Smoky & Juicy"
+    },
+    {
+      name: "Fish Curry (Malabar)",
+      price: "₹460",
+      description: "Fresh catch simmered in coconut milk, curry leaves & tamarind.",
+      imgLabel: "🐟",
+      badge: "nonveg",
+      special: ""
+    },
+    {
+      name: "Egg Biryani",
+      price: "₹290",
+      description: "Fragrant biryani with spiced boiled eggs, fried onions & mint.",
+      imgLabel: "🥚",
+      badge: "nonveg",
+      special: "Weekend Favorite"
+    },
+    {
+      name: "Prawn Masala",
+      price: "₹520",
+      description: "Jumbo prawns tossed in fiery onion-tomato gravy with chettinad spices.",
+      imgLabel: "🦐",
+      badge: "nonveg",
+      special: "Premium"
+    }
+  ];
+
+  // Helper: generate random soft gradient background for card images (to simulate food imagery)
+  const vegGradients = [
+    "linear-gradient(145deg, #a8e6a0, #368f3b)", "linear-gradient(125deg, #f9d976, #f39f3e)", "linear-gradient(130deg, #c7e9b0, #7cb342)",
+    "linear-gradient(140deg, #ffe28c, #ffb347)", "linear-gradient(120deg, #b8e1b0, #558b2f)", "linear-gradient(115deg, #fff0b5, #d9a13b)"
+  ];
+  const nonvegGradients = [
+    "linear-gradient(140deg, #f8b88b, #c0421e)", "linear-gradient(125deg, #f3a683, #ba2c1d)", "linear-gradient(135deg, #ffb296, #cf4a2c)",
+    "linear-gradient(130deg, #f7bc8a, #bc4a2c)", "linear-gradient(145deg, #ffc49b, #b33a22)", "linear-gradient(120deg, #fdcfaa, #bd4f2c)"
+  ];
+
+  function getGradientForItem(index, type) {
+    if (type === 'veg') {
+      return vegGradients[index % vegGradients.length];
+    } else {
+      return nonvegGradients[index % nonvegGradients.length];
+    }
+  }
+
+  // function to create menu card html
+  function createMenuCard(item, index, categoryType) {
+    const gradientStyle = getGradientForItem(index, categoryType);
+    const specialMarkup = item.special ? `<span class="special-badge">⭐ ${item.special}</span>` : '';
+    const badgeText = categoryType === 'veg' ? '🌱 VEG' : '🍖 NON-VEG';
+    const badgeClass = categoryType === 'veg' ? 'veg-badge' : 'nonveg-badge';
+    
+    // icon + label display for image area
+    const emojiIcon = item.imgLabel || (categoryType === 'veg' ? '🥗' : '🍗');
+    
+    return `
+      <div class="menu-card" data-dish="${item.name}" data-price="${item.price}">
+        <div class="card-img" style="background: ${gradientStyle}; display: flex; align-items: center; justify-content: center; font-size: 4rem; font-weight: normal; text-shadow: 2px 2px 8px rgba(0,0,0,0.2);">
+          <span style="background: rgba(0,0,0,0.4); padding: 0.3rem 1rem; border-radius: 60px; font-size: 2rem; backdrop-filter: blur(4px);">${emojiIcon}</span>
+          <div class="${badgeClass}" style="position: absolute; bottom: 12px; left: 12px;">${badgeText}</div>
+        </div>
+        <div class="card-content">
+          <div class="dish-name">
+            ${item.name} ${specialMarkup}
+            <span class="price">${item.price}</span>
+          </div>
+          <div class="description">${item.description}</div>
+          <button class="order-btn" data-name="${item.name}" data-price="${item.price}">🍽️ Order Now</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // render menu based on active tab
+  let activeTab = "veg";   // 'veg' or 'nonveg'
+
+  function renderMenu() {
+    const container = document.getElementById("menuContainer");
+    if (!container) return;
+    
+    if (activeTab === "veg") {
+      const vegHtml = vegMenu.map((item, idx) => createMenuCard(item, idx, "veg")).join("");
+      container.innerHTML = vegHtml;
+    } else {
+      const nonvegHtml = nonVegMenu.map((item, idx) => createMenuCard(item, idx, "nonveg")).join("");
+      container.innerHTML = nonvegHtml;
+    }
+
+    // Attach event listeners to all order buttons inside the new DOM
+    const allOrderBtns = document.querySelectorAll(".order-btn");
+    allOrderBtns.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const dishName = btn.getAttribute("data-name") || "this dish";
+        const dishPrice = btn.getAttribute("data-price") || "";
+        showToast(`✅ Added ${dishName} (${dishPrice}) to your craving list!`);
+      });
+    });
+  }
+
+  // Toast notification manager
+  let toastTimeout = null;
+  function showToast(message) {
+    const toast = document.getElementById("toastMsg");
+    if (!toast) return;
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toast.textContent = message;
+    toast.classList.add("show");
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2300);
+  }
+
+  // toggle active tabs and re-render
+  function setActiveTab(tab) {
+    activeTab = tab;
+    const vegBtn = document.getElementById("vegTabBtn");
+    const nonvegBtn = document.getElementById("nonvegTabBtn");
+    if (tab === "veg") {
+      vegBtn.classList.add("active");
+      nonvegBtn.classList.remove("active");
+    } else {
+      nonvegBtn.classList.add("active");
+      vegBtn.classList.remove("active");
+    }
+    renderMenu();
+  }
+
+  // Event listeners for tabs
+  document.getElementById("vegTabBtn").addEventListener("click", () => setActiveTab("veg"));
+  document.getElementById("nonvegTabBtn").addEventListener("click", () => setActiveTab("nonveg"));
+
+  // initial render
+  renderMenu();
+
+  // optional: show a welcome toast (once)
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      showToast("✨ Welcome to Hotel Harshad! Explore Veg & Non-Veg magic ✨");
+    }, 500);
+  });
+</script>
+
+</body>
+</html>
